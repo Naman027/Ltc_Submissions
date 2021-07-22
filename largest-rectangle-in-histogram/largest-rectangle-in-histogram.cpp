@@ -4,38 +4,40 @@ public:
         int n=heights.size();
         if(n==0) return 0;
         if(n==1) return heights[0];
-        int ans=0;
-        stack<int> st;
-        int i=0;
-        while(i<n){
-            if(st.empty() || heights[i]>=heights[st.top()]){
-                st.push(i);
-                i++;
+        stack<int> s ;
+        int right[n],left[n];
+        for(int i = 0 ; i< n ; i++){
+            while(!s.empty() && heights[s.top()] > heights[i]){
+                right[s.top()] = i ;
+                s.pop() ;
             }
-            else{
-                int cur=st.top();
-                st.pop();
-                if(st.empty()){
-                    ans=max(ans,i*heights[cur]);
-                }   
-                else{
-                    ans=max(ans,heights[cur]*(i-1-st.top()));
-                }
-                
+            s.push(i) ;
+        }
+        while(!s.empty())
+        {
+            right[s.top()] = n ;
+            s.pop() ;
+        }
+        for(int i = n-1 ; i>=0 ; i--)
+        {
+            while(!s.empty() && heights[s.top()] > heights[i])
+            {
+                left[s.top()] = i ;
+                s.pop() ;
             }
+            s.push(i) ;
         }
-        
-        while(!st.empty()){
-            int cur=st.top();
-            st.pop();
-            if(st.empty()){
-                 ans=max(ans,i*heights[cur]);
-            }   
-            else{
-                 ans=max(ans,heights[cur]*(i-1-st.top()));
-            }   
+        while(!s.empty())
+        {
+            left[s.top()] = -1 ;
+            s.pop() ;
         }
+        int maxi = INT_MIN ;
+        for(int i = 0 ; i< n ; i++)
+        {
+            maxi = max(maxi , heights[i]*((right[i]-left[i])-1)) ;
+        }
+        return maxi;
         
-        return ans;
     }
 };
