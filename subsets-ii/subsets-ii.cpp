@@ -1,31 +1,37 @@
 class Solution {
 public:
-    map<vector<int>,int> mp;
-    vector<vector<int>> ans;
-    
-    void per(vector<int>& nums,vector<int>& cur,int l,int r){
-        vector<int> pcur = cur;
-           sort(pcur.begin(),pcur.end());
-        if(mp[pcur]==0){
-            ans.push_back(pcur); 
-            mp[pcur]++;
-       }
- 
-        for(int i=l;i<nums.size(); i++){
-            cur.push_back(nums[i]);
-            per(nums,cur,i+1,r);
-            cur.pop_back();
-        }
-        
-    }
     vector<vector<int>> subsetsWithDup(vector<int>& nums) {
-        ans.clear();
-        int n=nums.size();
-        vector<int> cur;
-        cur.clear();
-        
-        per(nums,cur,0,n-1);
-       
-        return ans;
+        int n = nums.size();
+
+        // Sort the generated subset. This will help to identify duplicates.
+        sort(nums.begin(), nums.end());
+        vector<vector<int>> subsets;
+
+        int maxNumberOfSubsets = pow(2, n);
+        // To store the previously seen sets.
+        unordered_set<string> seen;
+
+        for (int subsetIndex = 0; subsetIndex < maxNumberOfSubsets; subsetIndex++) {
+            // Append subset corresponding to that bitmask.
+            vector<int> currentSubset;
+            string hashcode = "";
+            for (int j = 0; j < n; j++) {
+                // Generate the bitmask
+                int mask = 1 << j;
+                int isSet = mask & subsetIndex;
+                if (isSet != 0) {
+                    currentSubset.push_back(nums[j]);
+                    // Generate the hashcode by creating a comma separated string of numbers in the currentSubset.
+                    hashcode.append(to_string(nums[j]) + ",");
+                }
+            }
+
+            if (seen.find(hashcode) == seen.end()) {
+                subsets.push_back(currentSubset);
+                seen.insert(hashcode);
+            }
+        }
+
+        return subsets;
     }
 };
