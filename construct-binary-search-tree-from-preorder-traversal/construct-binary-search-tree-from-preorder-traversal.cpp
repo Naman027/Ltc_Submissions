@@ -12,26 +12,12 @@
 class Solution {
 public:
     
-    TreeNode* solve(vector<int>& preorder,int l,int r){
-        if(l>r) return nullptr;
-        TreeNode* root = new TreeNode(preorder[l]);
-        int ind = r+1;
-        for(int i=l;i<=r;i++){
-            if(preorder[i]>preorder[l]){
-                ind = i;
-                break;
-            }
-        }
-        
-        root->left = solve(preorder,l+1,ind-1);
-        root->right = solve(preorder,ind,r);
-        
+    int i = 0;
+    TreeNode* bstFromPreorder(vector<int>& A, int bound = INT_MAX) {
+        if (i == A.size() || A[i] > bound) return NULL;
+        TreeNode* root = new TreeNode(A[i++]);
+        root->left = bstFromPreorder(A, root->val);
+        root->right = bstFromPreorder(A, bound);
         return root;
-        
-    }
-    
-    TreeNode* bstFromPreorder(vector<int>& preorder) {
-        int n = preorder.size();
-        return solve(preorder,0,n-1);
     }
 };
