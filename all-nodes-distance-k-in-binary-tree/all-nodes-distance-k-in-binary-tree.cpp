@@ -44,9 +44,9 @@ public:
                 if(pa!=nullptr && !vis[pa->val]){
                     q.push(pa);
                 }
-                else if(pa==nullptr){
-                    if(!vis[root->val]) q.push(root);
-                }
+                // else if(pa==nullptr){
+                //     if(!vis[root->val]) q.push(root);
+                // }
                 
             }
             if(d==k) break;
