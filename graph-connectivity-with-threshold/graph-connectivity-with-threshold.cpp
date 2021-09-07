@@ -9,15 +9,16 @@ public:
     void uni(int a,int b,vector<int>& parent,vector<int>& rank){
         int p1 = par(a,parent);
         int p2 = par(b,parent);
-        // if(rank[p1]<rank[p2]){
-        //     parent[p1] = p2;
-        //     rank[p2]+=rank[p1];
-        // }
-        // else{
-        //     parent[p2] = p1;
-        //     rank[p1]+=rank[p2];
-        // }
-        parent[p1] = p2;
+        if(p1==p2) return;
+        if(rank[p1]<rank[p2]){
+            parent[p1] = p2;
+            rank[p2]+=rank[p1];
+        }
+        else{
+            parent[p2] = p1;
+            rank[p1]+=rank[p2];
+        }
+        //parent[p1] = p2;
     }
     
     vector<bool> areConnected(int n, int thresh, vector<vector<int>>& qr) {
