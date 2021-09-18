@@ -13,7 +13,7 @@ public:
         }
         for (int i = 1; i <= s.size() - pos; i++) {
             string t = s.substr(pos, i);
-            if (i > 1 && t[0] == '0') continue; // preceding 
+            if (i > 1 && t[0] == '0') continue; // preceding or leading zeroes
             long n = stol(t);
             if (pos == 0) {
                 dfs(s, target, i, n, n, t, res);
