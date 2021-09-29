@@ -107,16 +107,16 @@ public:
         int val = -1;
         Node *temp = NULL;
         
-        if(size & 1) { // Odd size delete ptr->next
+        if(size & 1) { 
             val = ptr->next->val;
             temp = ptr->next->next;
             ptr->next = temp;
             if(temp)
                 temp->prev = ptr;
-        } else { // Even size delete ptr
+        } else { 
             if(ptr == head) {
                 val = popFront();
-                size++; // since decreased by popFront
+                size++; 
             }
             else {
                 val = ptr->val;
