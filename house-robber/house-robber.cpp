@@ -9,8 +9,9 @@ public:
         int ans = dp[1];
         for(int i=2;i<n;i++){
             dp[i] = max(dp[i-1],dp[i-2]+nums[i]);
+            ans = max(ans,dp[i]);
         }
-        return dp[n-1];
+        return ans;
     }
 };
 
