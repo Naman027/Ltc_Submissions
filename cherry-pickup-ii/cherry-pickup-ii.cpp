@@ -3,7 +3,7 @@ public:
     int dy[3] = {-1,0,1};
     
     int cherryPickup(vector<vector<int>>& grid) {
-        int n =grid.size();
+        int n = grid.size();
         int m = grid[0].size();
         int dp[n+1][m+1][m+1];
         memset(dp,-1,sizeof(dp));
