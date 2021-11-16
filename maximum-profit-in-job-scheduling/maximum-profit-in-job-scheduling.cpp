@@ -24,10 +24,7 @@ public:
         
         // there is no job after the current ends
         if(idx==-1) ans = max(ans, a[i][2]);
-        
-        
         else ans = max(ans, a[i][2] + solve(a,idx));
-        
         return dp[i]= ans;
     }
     int jobScheduling(vector<int>& s, vector<int>& e, vector<int>& profit) {
@@ -40,6 +37,7 @@ public:
         return solve(a,0);
     }
 };
+
 /*
 class Solution {
 public:
