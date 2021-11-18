@@ -1,55 +1,50 @@
 class Solution {
 public:
-    
-    void merge(vector<array<int,2>>& ind,vector<int>& ans,int st,int mid,int end){
-        int left = st;
-        int right = mid+1;
-        
-        vector<array<int,2>> temp(end-st+1);
-        int k = 0;
-        while(left<=mid && right<=end){
-            if(ind[left][0]<=ind[right][0]){
-                temp[k++] = ind[right++];
+
+    class BIT{
+    public:
+        vector<int> bit;
+        int n;
+
+        BIT(int n){
+            bit = vector<int>(n+1,0);
+            this->n = n+1;
+        }
+
+        void update(int ind,int v){
+            while(ind<=n){
+                bit[ind]+=v;
+                ind+=(ind&(-ind));
             }
-            else{
-                ans[ind[left][1]]+=(end-right+1);
-                temp[k++] = ind[left++];
+        }
+
+        int query(int ind){
+            int ans = 0;
+            while(ind){
+                ans+=bit[ind];
+                ind-=(ind&(-ind));
             }
+            return ans;
         }
-        
-        while(left<=mid){
-            temp[k++] = ind[left++];
+
+        int sum(int l,int r){
+            return query(r)-query(l-1);
         }
-        
-        while(right<=end){
-            temp[k++] = ind[right++];
-        }
-        
-        for(int i=st;i<=end;i++){
-            ind[i] = temp[i-st];
-        }
-        
-    }
-    
-    void fun(vector<array<int,2>>& ind,vector<int>& ans,int st,int end){
-        if(st<end){
-            int mid = st+(end-st)/2;
-            fun(ind,ans,st,mid);
-            fun(ind,ans,mid+1,end);
-            merge(ind,ans,st,mid,end);
-        }
-    }
-    
+
+    };
+
     vector<int> countSmaller(vector<int>& nums) {
         int n = nums.size();
-        vector<array<int,2>> ind(n);
-        for(int i=0;i<n;i++){
-            ind[i][0] = nums[i];
-            ind[i][1] = i;
+        BIT bit = BIT(20010);
+
+        vector<int> ans;
+        for(int i=n-1;i>=0;i--){
+            nums[i]+=1e4+5;
+            bit.update(nums[i],1);
+            int q = bit.sum(1,nums[i]-1);
+            ans.push_back(q);
         }
-        
-        vector<int> ans(n,0);
-        fun(ind,ans,0,n-1);
+        reverse(ans.begin(),ans.end());
         return ans;
     }
 };
