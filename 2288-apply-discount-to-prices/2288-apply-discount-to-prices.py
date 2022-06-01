@@ -1,6 +1,6 @@
 class Solution:
     def discountPrices(self, sentence: str, discount: int) -> str:
-        words = sentence.split()
+        words = sentence.split(' ')
         ans = []
         
         for word in words:
